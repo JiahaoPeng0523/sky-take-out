@@ -1,6 +1,7 @@
 package com.sky.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.sky.dto.PasswordEditDTO;
 import com.sky.entity.Employee;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -19,4 +20,6 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
     Employee getByUsername(String username);
 
     List<Employee> pageQuery(String name);
+
+    Boolean updateByIdMy(PasswordEditDTO passwordEditDTO);
 }

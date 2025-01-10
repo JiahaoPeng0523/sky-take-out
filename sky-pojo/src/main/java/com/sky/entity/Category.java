@@ -1,5 +1,8 @@
 package com.sky.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel("分类操作时传入的数据类型")
 public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,14 +34,18 @@ public class Category implements Serializable {
     private Integer status;
 
     //创建时间
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     //更新时间
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     //创建人
+    @TableField(fill = FieldFill.INSERT)
     private Long createUser;
 
     //修改人
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
 }

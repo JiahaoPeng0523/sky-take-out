@@ -7,6 +7,7 @@ import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
+import com.sky.dto.PasswordEditDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
@@ -14,6 +15,7 @@ import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
 import com.sky.result.Result;
 import com.sky.service.EmployeeService;
+import com.sky.utils.BaseContext;
 import com.sky.vo.PageResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,5 +83,18 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         Page<Employee> pageResult = (Page<Employee>) list;
         PageResult<Employee> employeePageVO = new PageResult<>(pageResult.getTotal(), pageResult.getResult());
         return Result.success(employeePageVO);
+    }
+
+    @Override
+    public Result<String> updateByIdMy(PasswordEditDTO passwordEditDTO) {
+        /* 新老密码MD5加密 */
+        passwordEditDTO.setEmpId(BaseContext.getCurrentId());
+        passwordEditDTO.setNewPassword(DigestUtils.md5DigestAsHex(passwordEditDTO.getNewPassword().getBytes(StandardCharsets.UTF_8)));
+        passwordEditDTO.setOldPassword(DigestUtils.md5DigestAsHex(passwordEditDTO.getOldPassword().getBytes(StandardCharsets.UTF_8)));
+        /* 校验老密码是否正确 */
+        Employee byId = getById(passwordEditDTO.getEmpId());
+        if(byId.getPassword().equals(passwordEditDTO.getOldPassword())) return employeeMapper.updateByIdMy(passwordEditDTO)? Result.success("success"):Result.error("未知错误");
+        else return Result.error("原始密码错误，请重新输入");
+
     }
 }
