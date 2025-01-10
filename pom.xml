@@ -23,13 +23,14 @@
         <fastjson>1.2.76</fastjson>
         <commons.lang>2.6</commons.lang>
         <druid>1.2.1</druid>
-        <pagehelper>1.3.0</pagehelper>
+        <pagehelper>1.4.7</pagehelper>
         <aliyun.sdk.oss>3.10.2</aliyun.sdk.oss>
         <knife4j>3.0.2</knife4j>
         <aspectj>1.9.4</aspectj>
         <jjwt>0.9.1</jjwt>
         <jaxb-api>2.3.1</jaxb-api>
         <poi>3.16</poi>
+        <mybatisplus>3.4.2</mybatisplus>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -121,6 +122,17 @@
                 <groupId>com.github.wechatpay-apiv3</groupId>
                 <artifactId>wechatpay-apache-httpclient</artifactId>
                 <version>0.4.8</version>
+            </dependency>
+            <!-- MybatisPlus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatisplus}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatisplus}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
