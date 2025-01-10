@@ -49,10 +49,7 @@ public class CategoryController {
     @ApiOperation("类别删除")
     @DeleteMapping
     public Result<String> delete(Long id){
-        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<Category>()
-                .eq(Category::getId, id);
-        boolean remove = categoryService.remove(wrapper);
-        return remove ? Result.success("success") : Result.error("error");
+        return categoryService.removeCategory(id);
     }
 
     @ApiOperation("类别修改")

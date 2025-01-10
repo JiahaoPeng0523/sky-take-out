@@ -7,4 +7,6 @@ import com.sky.vo.PageResult;
 
 public interface CategoryService extends IService<Category> {
     Result<PageResult<Category>> pageQuery(Integer page, Integer pageSize, String name, Integer type);
+
+    Result<String> removeCategory(Long id);
 }
