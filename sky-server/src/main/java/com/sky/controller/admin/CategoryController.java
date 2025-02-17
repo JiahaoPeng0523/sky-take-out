@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @Api(tags = "分类相关接口")
 @RestController
@@ -61,5 +63,15 @@ public class CategoryController {
                 .eq(Category::getId, category.getId())
                 .update();
         return update ? Result.success("success") : Result.error("error");
+    }
+
+    @ApiOperation("根据类型查询分类")
+    @GetMapping("/list")
+    public Result<List<Category>> getByType(String type){
+        System.out.println(type);
+        List<Category> list = categoryService.lambdaQuery()
+                .eq(Category::getType, type)
+                .list();
+        return Result.success(list);
     }
 }
