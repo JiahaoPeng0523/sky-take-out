@@ -73,4 +73,13 @@ public class DishController {
         return Result.success("success");
     }
 
+    @ApiOperation("根据套餐id查询菜品信息")
+    @GetMapping("/list")
+    public Result<List<Dish>> getDishList(Long categoryId){
+        List<Dish> dishList = dishService.lambdaQuery()
+                .eq(Dish::getCategoryId, categoryId)
+                .list();
+        return dishList!=null? Result.success(dishList): Result.error("套餐相关菜品信息查询错误");
+    }
+
 }
