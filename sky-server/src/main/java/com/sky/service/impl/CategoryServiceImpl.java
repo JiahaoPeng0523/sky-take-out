@@ -62,4 +62,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return Result.error("无法删除分类，其中仍包含套餐或菜品");
 
     }
+
+    @Override
+    public List<Category> list(Integer type) {
+        List<Category> list = this.lambdaQuery()
+                .eq(type!=null, Category::getType, type)
+                .list();
+        return list;
+    }
 }
