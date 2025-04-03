@@ -15,6 +15,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +35,7 @@ public class SetmealController {
 
     @ApiOperation("套餐新建")
     @PostMapping
+    @CacheEvict(cacheNames = "userCache", key = "#setmealDTO.id")
     public Result<SetmealVO> postNewSetmeal(@RequestBody SetmealDTO setmealDTO) {
         boolean success = setmealService.saveNewSetmeal(setmealDTO);
         return success ? Result.success() : Result.error("套餐新增失败");
@@ -47,6 +50,7 @@ public class SetmealController {
 
     @ApiOperation("套餐起售/停售")
     @PostMapping("/status/{status}")
+    @CacheEvict(cacheNames = "userCache", allEntries = true)
     public Result<String> updateStatus(Long id, @PathVariable Integer status) {
         boolean update = setmealService.lambdaUpdate()
                 .eq(Setmeal::getId, id)
@@ -58,6 +62,7 @@ public class SetmealController {
     @ApiOperation("套餐批量删除")
     @DeleteMapping
     @Transactional
+    @CacheEvict(cacheNames = "userCache", allEntries = true)
     public Result<String> deleteSetmeal(@RequestParam List<Long> ids) {
         // 删除setmeal表中的数据
         setmealService.removeByIds(ids);
@@ -86,6 +91,7 @@ public class SetmealController {
 
     @ApiOperation("套餐修改")
     @PutMapping
+    @CacheEvict(cacheNames = "userCache", allEntries = true)
     public Result<String> putSetmeal(@RequestBody SetmealDTO setmealDTO){
         setmealService.putSetmeal(setmealDTO);
         return Result.success();
